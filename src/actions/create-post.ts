@@ -27,7 +27,7 @@ interface CreatePostProps {
 }
 
 export async function createPost(
-  topicSlug: string,
+  slug: string,
   formState: CreatePostProps,
   formData: FormData
 ): Promise<CreatePostProps> {
@@ -48,11 +48,11 @@ export async function createPost(
       },
     };
   }
-
+  
   // When we READ data from the DB we dont use try/catch!!!
   const topic = await db.topic.findFirst({
     where: {
-      slug: topicSlug,
+      slug: slug,
     },
   });
 
@@ -76,6 +76,6 @@ export async function createPost(
     }
   }
 
-  revalidatePath(paths.topicShow(topicSlug));
-  redirect(paths.postShow(topicSlug, post.id));
+  revalidatePath(paths.topicShow(slug));
+  redirect(paths.postShow(slug, post.id));
 }
